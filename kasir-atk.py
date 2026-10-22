@@ -47,9 +47,11 @@ if not st.session_state.logged_in:
 
 # ================= PANEL ATAS & LOGOUT =================
 st.sidebar.title(f"👤 Peran: {st.session_state.role}")
-if st.sidebar.button("Keluar / Logout"):
+if st.sidebar.button("Keluar / Logout", key="btn_logout"):
     st.session_state.logged_in = False
     st.session_state.role = None
+    if 'cart' in st.session_state:
+        st.session_state.cart = []
     st.rerun()
 
 st.title("📚 Kasir & Manajemen Stok Toko ATK")
@@ -194,24 +196,4 @@ if len(tabs) > 1:
                 st.success(f"Barang '{new_name}' berhasil ditambahkan!")
                 st.rerun()
 
-    # TAB 3: LAPORAN KEUANGAN
-    with tab_obj[2]:
-        st.subheader("Laporan Penjualan & Laba Bersih")
-        
-        if len(st.session_state.transactions) > 0:
-            trx_df = pd.DataFrame(st.session_state.transactions)
-            
-            total_omzet = trx_df["Omzet"].sum()
-            total_modal = trx_df["Modal"].sum()
-            total_laba = trx_df["Laba"].sum()
-            
-            m1, m2, m3 = st.columns(3)
-            m1.metric("Total Omzet Penjualan", f"Rp {total_omzet:,.0f}")
-            m2.metric("Total Harga Modal (HPP)", f"Rp {total_modal:,.0f}")
-            m3.metric("Total Laba Bersih", f"Rp {total_laba:,.0f}", delta="Keuntungan")
-            
-            st.markdown("---")
-            st.subheader("Riwayat Detail Transaksi")
-            st.dataframe(trx_df, hide_index=True)
-        else:
-            st.info("Belum ada transaksi yang tercatat hari ini.")
+    #
