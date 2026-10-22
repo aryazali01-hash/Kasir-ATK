@@ -76,7 +76,7 @@ with tab1:
             st.dataframe(cart_df[["Nama Barang", "Qty", "Subtotal"]], hide_index=True)
             
             total_belanja = cart_df["Subtotal"].sum()
-            st.markdown(### Total: Rp {total_belanja:,.0f})
+            st.markdown(f"### Total: Rp {total_belanja:,.0f}")
             
             col_b1, col_b2 = st.columns(2)
             with col_b1:
